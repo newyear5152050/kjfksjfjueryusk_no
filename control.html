@@ -16,103 +16,68 @@
 body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
 .app{display:flex;height:100vh}
 
-/* Sidebar */
+/* Sidebar (اختياري للتناسق) */
 .sidebar{width:230px;background:var(--sidebar);border-right:1px solid var(--border);padding:20px}
 .logo{color:var(--primary);font-weight:700;letter-spacing:2px;margin-bottom:40px}
 .menu a{display:block;color:var(--muted);text-decoration:none;padding:10px 12px;border-radius:6px;margin-bottom:8px}
-.menu a:hover{background:rgba(59,130,246,.15);color:var(--secondary)}
+.menu a.active,.menu a:hover{background:rgba(59,130,246,.15);color:var(--secondary)}
 
 .main{flex:1;padding:20px;display:flex;flex-direction:column}
 .header{margin-bottom:12px}
 .header h1{font-size:22px}
+.header p{color:var(--muted);font-size:14px}
 
 /* Layout */
 .stage{display:grid;grid-template-columns: 360px 1fr; gap:16px; height:100%}
 
 /* Video phone frame */
 .phone{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:var(--panel); border:1px solid var(--border); border-radius:22px;
+  padding:10px; display:flex; align-items:center; justify-content:center;
 }
 .phone .frame{
-  width:100%;
-  aspect-ratio:9/19.5;
-  background:#000;
-  border-radius:18px;
-  overflow:hidden;
+  width:100%; aspect-ratio:9/19.5; background:#000; border-radius:18px; overflow:hidden;
   box-shadow: 0 0 0 1px #111827 inset;
 }
-.phone video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.phone video{width:100%; height:100%; object-fit:cover}
 
 /* Controls panel */
 .controls{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:14px;
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:12px;
-  overflow:auto;
+  background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:14px;
+  display:grid; grid-template-columns: 1fr; gap:12px; overflow:auto;
 }
 
 /* Device info */
 .device{
-  display:grid;
-  grid-template-columns: repeat(4,1fr);
-  gap:10px;
+  display:grid; grid-template-columns: repeat(4,1fr); gap:10px;
 }
 .info{
-  background:#020617;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px;
+  background:#020617; border:1px solid var(--border); border-radius:12px; padding:10px;
 }
 .info h4{font-size:12px;color:var(--muted);margin-bottom:4px}
 .info p{font-weight:600}
 
 /* Buttons grid */
 .btns{
-  display:grid;
-  grid-template-columns: repeat(5,1fr);
-  gap:10px;
+  display:grid; grid-template-columns: repeat(5,1fr); gap:10px;
 }
 .btn{
-  background:#020617;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px;
-  text-align:center;
-  cursor:pointer;
-  transition:.2s;
+  background:#020617; border:1px solid var(--border); border-radius:12px;
+  padding:10px; text-align:center; cursor:pointer; transition:.2s;
   user-select:none;
 }
-.btn:hover{border-color:var(--primary);transform:translateY(-2px)}
+.btn:hover{border-color:var(--primary); transform:translateY(-2px)}
 .btn.active{
   background:rgba(59,130,246,.15);
   border-color:var(--secondary);
-  box-shadow:0 0 0 1px rgba(56,189,248,.35) inset;
+  box-shadow: 0 0 0 1px rgba(56,189,248,.35) inset;
 }
 .btn small{display:block;color:var(--muted);font-size:11px}
 
 /* Footer log */
 .log{
-  background:#020617;
-  border:1px dashed var(--border);
-  border-radius:12px;
-  padding:10px;
-  color:var(--secondary);
-  font-family:monospace;
-  font-size:12px;
+  background:#020617; border:1px dashed var(--border); border-radius:12px; padding:10px;
+  color:var(--secondary); font-family:monospace; font-size:12px;
 }
 </style>
 </head>
@@ -139,11 +104,9 @@ body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
       <!-- Left: Video -->
       <div class="phone">
         <div class="frame">
-          <!-- دعم MOV + MP4 (أفضل توافق) -->
-          <video id="ved" controls muted loop playsinline>
-            <source src="ved.mov" type="video/quicktime">
+          <!-- ضع الفيديو عندك وسمّه ved -->
+          <video id="ved" controls muted loop>
             <source src="ved.mp4" type="video/mp4">
-            Your browser does not support the video tag.
           </video>
         </div>
       </div>
@@ -158,7 +121,7 @@ body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
           <div class="info"><h4>Connection</h4><p>Secure</p></div>
         </div>
 
-        <!-- Buttons -->
+        <!-- Buttons (50) -->
         <div class="btns" id="btns"></div>
 
         <!-- Log -->
@@ -169,65 +132,27 @@ body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
 </div>
 
 <script>
-const postExploitationCommands = [
-  // Device Control
-  "Force Shutdown", "Force Restart", "Lock Device", "Unlock Device",
-  "Enable Kiosk Mode", "Disable Kiosk Mode", "Factory Reset", "Wipe Device",
-  
-  // Network Control
-  "Enable Mobile Data", "Disable Mobile Data", "Enable Wi-Fi", "Disable Wi-Fi",
-  "Enable Hotspot", "Disable Hotspot", "VPN Redirect", "Proxy Setup",
-  "Network Traffic Redirect", "DNS Override",
-  
-  // Communication Control
-  "Enable Calls", "Disable Calls", "Enable SMS", "Disable SMS",
-  "Call Forwarding", "SMS Intercept", "Call Recording", "Silent Call",
-  
-  // Media Control
-  "Play Sound", "Stop Sound", "Max Volume", "Mute Device",
-  "Play Media File", "Stop Media", "Record Audio", "Record Video",
-  "Take Photo", "Stream Camera", "Stream Microphone",
-  
-  // System Control
-  "Install App", "Uninstall App", "Launch App", "Close App",
-  "List Installed Apps", "Extract App Data", "Modify Settings",
-  "Change Wallpaper", "Change Ringtone", "Change Language",
-  
-  // Security Bypass
-  "Disable Antivirus", "Bypass Firewall", "Disable Play Protect",
-  "Remove Security Apps", "Disable Screen Lock", "Bypass Biometrics",
-  
-  // Data Operations
-  "Download File", "Upload File", "Delete File", "Encrypt Files",
-  "Decrypt Files", "Search Files", "Copy Contacts", "Export Messages",
-  "Export Call Logs", "Export Photos", "Export Documents",
-  
-  // Monitoring
-  "Live Location", "Location History", "Keylogger Enable", "Keylogger Disable",
-  "Screen Monitoring", "App Usage Logs", "Network Activity Log",
-  
-  // Advanced Control
-  "Remote Shell", "Execute Command", "Script Injection", "Schedule Task",
-  "Persistence Install", "Persistence Remove", "Elevate Privileges",
-  "Device Information", "System Logs", "Battery Status",
-  
-  // Stealth Operations
-  "Hide Icon", "Show Icon", "Stealth Mode", "Normal Mode",
-  "Clear Logs", "Anti-forensic Wipe", "Fake Data Injection",
-  
-  // Financial
-  "Get Banking Apps", "Monitor Transactions", "Credit Card Scanner",
-  "Payment App Control", "Crypto Wallet Access",
-  
-  // Social Engineering
-  "Send Spoof SMS", "Send Spoof Email", "Social Media Access",
-  "Contact List Access", "Message History", "Email Access"
+const labels = [
+  "Brute Force Lock", "Bypass Authentication", "Force System Wake", "Force Sleep Mode",
+  "Screen Overdrive", "Screen Dim Attack", "Volume Max Exploit", "Volume Null Attack",
+  "Wi-Fi Deauth Attack", "Bluetooth Sniffing", "Forced Airplane Mode", "GPS Spoofing",
+  "Camera Backdoor", "Mic Eavesdrop", "Flash Exploit", "Screen Rotation Hack",
+  "Stealth Screenshot", "Hidden Recording", "Task Manager Hijack", "Root Access",
+  "Backdoor Entry", "Notification Hijack", "Control Panel Override",
+  "Forced DND Mode", "Silent Mode Exploit", "Ringtone Overwrite", "Vibration Control",
+  "Theme Injection", "Night Mode Exploit", "Display Calibration Hack",
+  "Force Refresh", "Cache Poisoning", "Storage Access Exploit",
+  "Battery Drain Attack", "CPU Overclock", "GPU Hijack", "Memory Dump",
+  "Sensor Data Harvest", "Face ID Spoof", "Touch Injection",
+  "Haptic Feedback Control", "Gyro Manipulation", "Compass Override",
+  "Proximity Sensor Bypass", "NFC Skimming", "Digital Wallet Hack",
+  "Voice Assistant Exploit", "Deep System Search", "Force Data Exfil"
 ];
 
 const btns = document.getElementById('btns');
 const log = document.getElementById('log');
 
-labels.forEach(t=>{
+labels.forEach((t,i)=>{
   const b=document.createElement('div');
   b.className='btn';
   b.innerHTML=`<strong>${t}</strong><small>Simulated</small>`;
