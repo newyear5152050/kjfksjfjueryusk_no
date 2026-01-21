@@ -31,30 +31,24 @@ body{
   overflow:hidden;
 }
 
-/* ===== Background container ===== */
+/* Background */
 .visual{
   position:fixed;
   inset:0;
   z-index:0;
 }
-
-/* ===== Blurred colored world map ===== */
 .visual::before{
   content:"";
   position:absolute;
   inset:0;
-
   -webkit-mask: url("https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg")
                 center / contain no-repeat;
   mask: url("https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg")
         center / contain no-repeat;
-
   background-color: rgba(59, 130, 246, 0.35);
   filter: blur(6px);
   z-index:1;
 }
-
-/* ===== Dark overlay ===== */
 .visual::after{
   content:"";
   position:absolute;
@@ -63,7 +57,7 @@ body{
   z-index:2;
 }
 
-/* ===== Login card ===== */
+/* Login card */
 .card{
   position:relative;
   z-index:5;
@@ -221,28 +215,37 @@ body{
 
   <div class="status" id="status"></div>
 
-  <div class="footer">
-    UI Simulation only • <strong>No real authentication</strong>
-  </div>
 </div>
 
 <script>
 function login(){
-  const u=document.getElementById('user').value.trim();
-  const p=document.getElementById('pass').value.trim();
-  const s=document.getElementById('status');
-  s.style.display='block';
+  const u = document.getElementById('user').value.trim();
+  const p = document.getElementById('pass').value.trim();
+  const s = document.getElementById('status');
+  s.style.display = 'block';
+
+  const VALID_USER = "admin@nexus.local";
+  const VALID_PASS = "123!@#wW";
 
   if(!u || !p){
-    s.className='status err';
-    s.textContent='Please enter username and password.';
+    s.className = 'status err';
+    s.textContent = 'Please enter username and password.';
     return false;
   }
 
-  s.className='status ok';
-  s.textContent='Access granted (simulated). Redirecting...';
+  if(u !== VALID_USER || p !== VALID_PASS){
+    s.className = 'status err';
+    s.textContent = 'Invalid credentials.';
+    return false;
+  }
 
-  setTimeout(()=>location.href='index.html',1200);
+  s.className = 'status ok';
+  s.textContent = 'Access granted (simulated). Redirecting...';
+
+  setTimeout(() => {
+    location.href = 'index.html';
+  }, 1200);
+
   return false;
 }
 </script>
