@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NEXUS | Global Network</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0B1220;
+  --sidebar: #0F172A;
+  --panel: #020617;
+  --border: #1E293B;
+  --primary: #3B82F6;
+  --secondary: #38BDF8;
+  --text: #E5E7EB;
+  --muted: #9CA3AF;
+  --success: #22C55E;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  padding: 20px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+}
+
+.menu a {
+  display: block;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: var(--muted);
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.menu a:hover,
+.menu a.active {
+  background: rgba(59,130,246,0.15);
+  color: var(--secondary);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--success);
+}
+
+.topbar span {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Map Panel */
+.visual {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Clearer world map */
+.visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  /* نستخدم الخريطة كقناع */
+  -webkit-mask: url("https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg")
+                center / contain no-repeat;
+  mask: url("https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg")
+        center / contain no-repeat;
+
+  /* اللون اللي هيظهر */
+  background-color: rgba(59, 130, 246, 0.35);
+}
+
+
+/* Nodes */
+.node {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  animation: pulse 2.5s infinite;
+}
+
+.node::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px solid rgba(56,189,248,0.35);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(56,189,248,0.5); }
+  70% { box-shadow: 0 0 0 12px rgba(56,189,248,0); }
+  100% { box-shadow: 0 0 0 0 rgba(56,189,248,0); }
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  background: #020617;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: none;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tooltip strong {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Cards */
+.cards {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 18px;
+  border-radius: 10px;
+  transition: 0.25s;
+}
+
+.card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+}
+
+.card h3 {
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+
+.card p {
+  font-size: 14px;
+  color: var(--muted);
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">NEXUS</div>
+    <nav class="menu">
+      <a href="index.html">Dashboard</a>
+      <a href="info.html">Creating or planting</a>
+      <a href="control.html">Devices Control</a>
+      <a href="devices.html">Devices</a>
+      <a href="about.html">About</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <div class="dot"></div>
+      <span>Global Network Active</span>
+    </div>
+
+    <section class="visual" id="map">
+
+      <!-- أمريكا الشمالية -->
+      <div class="node" style="top:42%; left:22%;" data-name="US-East" data-region="USA" data-status="Online"></div>
+      <div class="node" style="top:45%; left:20%;" data-name="US-West" data-region="USA" data-status="Online"></div>
+      <div class="node" style="top:40%; left:24%;" data-name="CA-Node" data-region="Canada" data-status="Idle"></div>
+      <div class="node" style="top:47%; left:26%;" data-name="MX-GW" data-region="Mexico" data-status="Online"></div>
+
+      <!-- أوروبا (كثافة عالية) -->
+      <div class="node" style="top:38%; left:48%;" data-name="UK-Core" data-region="UK" data-status="Online"></div>
+      <div class="node" style="top:40%; left:50%;" data-name="FR-Node" data-region="France" data-status="Online"></div>
+      <div class="node" style="top:42%; left:52%;" data-name="DE-Core" data-region="Germany" data-status="Online"></div>
+      <div class="node" style="top:41%; left:54%;" data-name="PL-Relay" data-region="Poland" data-status="Idle"></div>
+      <div class="node" style="top:44%; left:49%;" data-name="ES-Node" data-region="Spain" data-status="Online"></div>
+      <div class="node" style="top:39%; left:56%;" data-name="IT-GW" data-region="Italy" data-status="Online"></div>
+      <div class="node" style="top:37%; left:51%;" data-name="NL-Core" data-region="Netherlands" data-status="Online"></div>
+      <div class="node" style="top:36%; left:53%;" data-name="SE-Node" data-region="Sweden" data-status="Idle"></div>
+
+      <!-- أفريقيا -->
+      <div class="node" style="top:55%; left:48%;" data-name="EG-Node" data-region="Egypt" data-status="Online"></div>
+      <div class="node" style="top:60%; left:50%;" data-name="NG-GW" data-region="Nigeria" data-status="Idle"></div>
+      <div class="node" style="top:63%; left:52%;" data-name="ZA-Core" data-region="South Africa" data-status="Online"></div>
+
+      <!-- الصين / شرق آسيا -->
+      <div class="node" style="top:45%; left:72%;" data-name="CN-Core" data-region="China" data-status="Online"></div>
+      <div class="node" style="top:43%; left:74%;" data-name="CN-East" data-region="China" data-status="Online"></div>
+      <div class="node" style="top:48%; left:76%;" data-name="JP-GW" data-region="Japan" data-status="Idle"></div>
+      <div class="node" style="top:50%; left:73%;" data-name="KR-Node" data-region="Korea" data-status="Online"></div>
+
+      <div class="tooltip" id="tooltip"></div>
+    </section>
+
+    <section class="cards">
+      <div class="card"><h3>Info</h3><p>System overview</p></div>
+      <div class="card"><h3>Sent</h3><p>Outgoing data</p></div>
+      <div class="card"><h3>Received</h3><p>Incoming data</p></div>
+      <div class="card"><h3>Recent</h3><p>Latest activity</p></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+const tooltip = document.getElementById("tooltip");
+
+document.querySelectorAll(".node").forEach(node => {
+  node.addEventListener("mousemove", e => {
+    tooltip.style.display = "block";
+    tooltip.style.left = e.pageX + 15 + "px";
+    tooltip.style.top = e.pageY + 15 + "px";
+    tooltip.innerHTML = `
+      <strong>${node.dataset.name}</strong>
+      Region: ${node.dataset.region}<br>
+      Status: ${node.dataset.status}
+    `;
+  });
+  node.addEventListener("mouseleave", () => tooltip.style.display = "none");
+});
+</script>
+
+</body>
+</html>

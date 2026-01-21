@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS | Devices</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0B1220; --sidebar:#0F172A; --panel:#020617; --border:#1E293B;
+  --primary:#3B82F6; --secondary:#38BDF8;
+  --text:#E5E7EB; --muted:#9CA3AF;
+  --ok:#22C55E; --idle:#F59E0B; --off:#EF4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
+.app{display:flex;height:100vh}
+
+/* Sidebar */
+.sidebar{width:230px;background:var(--sidebar);border-right:1px solid var(--border);padding:20px}
+.logo{color:var(--primary);font-weight:700;letter-spacing:2px;margin-bottom:40px}
+.menu a{display:block;color:var(--muted);text-decoration:none;padding:10px 12px;border-radius:6px;margin-bottom:8px}
+.menu a.active,.menu a:hover{background:rgba(59,130,246,.15);color:var(--secondary)}
+
+.main{flex:1;padding:20px;display:flex;flex-direction:column}
+
+/* Header */
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.header h1{font-size:22px}
+.header p{color:var(--muted);font-size:14px}
+
+/* Toolbar */
+.toolbar{
+  display:flex; gap:10px; margin-bottom:12px;
+}
+.input{
+  background:#020617;border:1px solid var(--border);
+  border-radius:10px;padding:10px;color:var(--text);min-width:220px
+}
+.select{
+  background:#020617;border:1px solid var(--border);
+  border-radius:10px;padding:10px;color:var(--text)
+}
+
+/* Devices Grid */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
+  overflow-y:auto;
+  padding-right:4px;
+  max-height:calc(100vh - 160px);
+}
+
+/* Device Card */
+.device{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  transition:.25s;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.device:hover{border-color:var(--primary);transform:translateY(-3px)}
+
+.top{
+  display:flex;justify-content:space-between;align-items:center
+}
+.name{font-weight:600}
+.badge{
+  font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid transparent
+}
+.online{color:var(--ok);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.15)}
+.idle{color:var(--idle);border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.15)}
+.off{color:var(--off);border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.15)}
+
+.meta{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--muted)
+}
+.meta span{color:var(--text);font-weight:500}
+
+.actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px
+}
+.btn{
+  background:#020617;border:1px solid var(--border);
+  border-radius:10px;padding:10px;text-align:center;
+  cursor:pointer;transition:.2s;font-size:13px
+}
+.btn:hover{border-color:var(--secondary);color:var(--secondary)}
+.primary{background:rgba(59,130,246,.15);border-color:rgba(59,130,246,.35)}
+.primary:hover{color:#fff}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">NEXUS</div>
+    <nav class="menu">
+      <a href="index.html">Dashboard</a>
+      <a href="info.html">Creating or planting</a>
+      <a href="control.html">Devices Control</a>
+      <a href="devices.html">Devices</a>
+      <a href="about.html">About</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div>
+        <h1>Devices</h1>
+        <p>30 registered mobile devices - Active monitoring</p>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <input class="input" placeholder="Search device name..." />
+      <select class="select">
+        <option>All Platforms</option>
+        <option>iOS</option>
+        <option>Android</option>
+      </select>
+      <select class="select">
+        <option>All Status</option>
+        <option>Online</option>
+        <option>Idle</option>
+        <option>Offline</option>
+      </select>
+    </div>
+
+    <!-- Devices Grid -->
+    <section class="grid">
+
+      <!-- Device 1-10: iPhone Devices -->
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 15 Pro</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 17.4</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>192.168.1.15</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 14 Pro Max</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 17.3</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>10.0.1.25</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 13</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 16.7</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>172.16.0.13</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 12 Pro</div>
+          <div class="badge off">Offline</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 16.5</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>—</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone SE 2022</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 17.2</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>192.168.2.10</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 11 Pro</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 15.8</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>10.1.1.11</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone XR</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 16.6</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>192.168.0.100</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 8 Plus</div>
+          <div class="badge off">Offline</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 15.7</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>—</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 15</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 17.4</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>10.0.0.15</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">iPhone 14</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>iOS 17.1</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>192.168.3.14</span></div>
+          <div>Type: <span>iPhone</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <!-- Device 11-20: Samsung Devices -->
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung Galaxy S24</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 14</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>192.168.1.24</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung S23 Ultra</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 14</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>10.0.2.23</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung S22+</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>172.16.1.22</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung A54</div>
+          <div class="badge off">Offline</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>—</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung Z Fold5</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 14</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>192.168.2.50</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung S21 FE</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>10.1.2.21</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung Note 20</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 12</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>192.168.0.20</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung A34</div>
+          <div class="badge off">Offline</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>—</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung S20 Ultra</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 12</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>10.0.0.20</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Samsung Z Flip5</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 14</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>192.168.3.55</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <!-- Device 21-30: Google & Other Android Devices -->
+      <div class="device">
+        <div class="top">
+          <div class="name">Google Pixel 8 Pro</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 14</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>192.168.1.8</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Google Pixel 7a</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 14</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>10.0.2.7</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">OnePlus 11</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 14</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>172.16.2.11</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Xiaomi 13 Pro</div>
+          <div class="badge off">Offline</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>—</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Google Pixel 6</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>192.168.2.6</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">OnePlus Nord 3</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>10.1.3.33</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Motorola Edge 40</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>192.168.0.40</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Nothing Phone 2</div>
+          <div class="badge off">Offline</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>US</span></div>
+          <div>IP: <span>—</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Sony Xperia 1 V</div>
+          <div class="badge online">Online</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>Asia</span></div>
+          <div>IP: <span>10.0.0.25</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+      <div class="device">
+        <div class="top">
+          <div class="name">Realme GT 3</div>
+          <div class="badge idle">Idle</div>
+        </div>
+        <div class="meta">
+          <div>OS: <span>Android 13</span></div>
+          <div>Region: <span>EU</span></div>
+          <div>IP: <span>192.168.3.33</span></div>
+          <div>Type: <span>Android</span></div>
+        </div>
+        <div class="actions">
+          <div class="btn primary" onclick="go()">Open Control</div>
+          <div class="btn">Details</div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<script>
+function go(){
+  window.location.href = "control.html";
+}
+</script>
+</body>
+</html>

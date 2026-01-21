@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NEXUS | About</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0B1220; --sidebar:#0F172A; --panel:#020617; --border:#1E293B;
+  --primary:#3B82F6; --secondary:#38BDF8;
+  --text:#E5E7EB; --muted:#9CA3AF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
+.app{display:flex;height:100vh}
+
+/* Sidebar */
+.sidebar{
+  width:230px;background:var(--sidebar);
+  border-right:1px solid var(--border);padding:20px
+}
+.logo{
+  color:var(--primary);font-weight:700;
+  letter-spacing:2px;margin-bottom:40px
+}
+.menu a{
+  display:block;color:var(--muted);text-decoration:none;
+  padding:10px 12px;border-radius:6px;margin-bottom:8px
+}
+.menu a.active,.menu a:hover{
+  background:rgba(59,130,246,.15);color:var(--secondary)
+}
+
+/* Main */
+.main{
+  flex:1;padding:24px;overflow:auto
+}
+.header{
+  margin-bottom:20px
+}
+.header h1{font-size:26px}
+.header p{color:var(--muted);font-size:14px}
+
+/* Content */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+}
+.card h3{
+  color:var(--primary);
+  margin-bottom:10px
+}
+.card p{
+  color:var(--muted);
+  line-height:1.6;
+  font-size:14px
+}
+
+.list{
+  margin-top:8px;
+  display:grid;
+  gap:6px;
+}
+.list span{
+  font-size:14px;
+  color:var(--text)
+}
+
+/* Footer note */
+.note{
+  margin-top:20px;
+  background:#020617;
+  border:1px dashed var(--border);
+  border-radius:14px;
+  padding:16px;
+  font-size:13px;
+  color:var(--muted)
+}
+.note strong{color:var(--secondary)}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">NEXUS</div>
+    <nav class="menu">
+      <a href="index.html">Dashboard</a>
+      <a href="devices.html">Devices</a>
+      <a href="control.html">Devices Control</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <div class="header">
+      <h1>About NEXUS</h1>
+      <p>Interface concept & UI simulation</p>
+    </div>
+
+    <section class="grid">
+
+      <div class="card">
+        <h3>Project Overview</h3>
+        <p>
+          NEXUS is a modern dashboard concept designed to demonstrate
+          interface architecture, layout systems, and interaction design
+          for device management platforms.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Purpose</h3>
+        <p>
+          This project focuses on <strong>visual structure</strong>,
+          <strong>user experience</strong>, and <strong>interface flow</strong>
+          without implementing any real device interaction or backend logic.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>What This Is</h3>
+        <div class="list">
+          <span>✔ UI / UX Concept</span>
+          <span>✔ Front-end Simulation</span>
+          <span>✔ Legal & Safe Demo</span>
+          <span>✔ Portfolio-ready</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>What This Is Not</h3>
+        <div class="list">
+          <span>✖ Real device control</span>
+          <span>✖ Network exploitation</span>
+          <span>✖ Data collection</span>
+          <span>✖ Backend execution</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Technology Stack</h3>
+        <div class="list">
+          <span>• HTML5</span>
+          <span>• CSS3 (Modern Layouts)</span>
+          <span>• Vanilla JavaScript</span>
+          <span>• No external services</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Design Philosophy</h3>
+        <p>
+          Clean dark UI, minimal noise, clear hierarchy,
+          and interaction feedback inspired by enterprise-grade dashboards.
+        </p>
+      </div>
+
+    </section>
+
+    <div class="note">
+      <strong>Disclaimer:</strong><br>
+      This interface is a visual and interactive simulation only.
+      It does not perform any real operations, does not connect to devices,
+      and does not execute or generate any harmful actions.
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

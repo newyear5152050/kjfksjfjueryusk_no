@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NEXUS | Creating or Planting</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0B1220; --panel:#020617; --sidebar:#0F172A; --border:#1E293B;
+  --primary:#3B82F6; --secondary:#38BDF8; --text:#E5E7EB; --muted:#9CA3AF;
+  --success:#22C55E; --error:#EF4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
+.app{display:flex;height:100vh}
+
+/* Sidebar (اختياري للاتساق) */
+.sidebar{width:230px;background:var(--sidebar);border-right:1px solid var(--border);padding:20px}
+.logo{color:var(--primary);font-weight:700;letter-spacing:2px;margin-bottom:40px}
+.menu a{display:block;color:var(--muted);text-decoration:none;padding:10px 12px;border-radius:6px;margin-bottom:8px}
+.menu a.active,.menu a:hover{background:rgba(59,130,246,.15);color:var(--secondary)}
+
+.main{flex:1;padding:20px;display:flex;flex-direction:column}
+.header{margin-bottom:16px}
+.header h1{font-size:22px}
+.header p{color:var(--muted);font-size:14px}
+
+/* Form */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.input{background:#020617;border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--text)}
+.input::placeholder{color:#6B7280}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+
+.card{background:#020617;border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:.25s}
+.card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.card h3{color:var(--primary);margin-bottom:6px}
+.card p{color:var(--muted);font-size:14px}
+
+/* Progress + Result */
+.progress{margin-top:14px;height:10px;background:#020617;border:1px solid var(--border);border-radius:999px;overflow:hidden;display:none}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--secondary))}
+.result{margin-top:14px;display:none}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px}
+.ok{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.35)}
+.err{background:rgba(239,68,68,.15);color:var(--error);border:1px solid rgba(239,68,68,.35)}
+.code{margin-top:8px;background:#020617;border:1px dashed var(--border);border-radius:10px;padding:10px;font-family:monospace;color:var(--secondary);word-break:break-all}
+
+/* Modal (رفع صورة) */
+.modal{position:fixed;inset:0;background:rgba(2,6,23,.6);display:none;align-items:center;justify-content:center}
+.modal .box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;width:420px}
+.modal h3{margin-bottom:8px}
+.modal input{width:100%;margin:8px 0}
+.btn{background:var(--primary);color:white;border:none;border-radius:10px;padding:10px 12px;cursor:pointer}
+.btn.secondary{background:#0F172A;border:1px solid var(--border);color:var(--text)}
+.footer-note{margin-top:10px;color:var(--muted);font-size:12px}
+</style>
+</head>
+
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">NEXUS</div>
+    <nav class="menu">
+      <a href="index.html">Dashboard</a>
+      <a href="info.html">Creating or planting</a>
+      <a href="control.html">Devices Control</a>
+      <a href="devices.html">Devices</a>
+      <a href="about.html">About</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <h1>Creating or Planting</h1>
+    </div>
+
+    <div class="panel">
+      <!-- Required inputs -->
+      <div class="row">
+        <input id="ip" class="input" placeholder="IP address (required)">
+        <input id="host" class="input" placeholder="Host name (required)">
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <div class="card" onclick="createLink()">
+          <h3>Create Link</h3>
+          <p>Generate a simulated random URL</p>
+        </div>
+        <div class="card" onclick="openModal('image')">
+          <h3>Create Image</h3>
+          <p>Upload image and simulate creation</p>
+        </div>
+        <div class="card" onclick="openModal('embed')">
+          <h3>Embed Image</h3>
+          <p>Upload image and simulate embedding</p>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress" id="progress"><div class="bar" id="bar"></div></div>
+
+      <!-- Result -->
+      <div class="result" id="result"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="box">
+    <h3 id="modalTitle">Upload Image</h3>
+    <input type="file" accept="image/*" id="file">
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn" onclick="submitImage()">Create</button>
+    </div>
+    <div class="footer-note">Simulation only. No files are uploaded.</div>
+  </div>
+</div>
+
+<script>
+const progress = document.getElementById('progress');
+const bar = document.getElementById('bar');
+const result = document.getElementById('result');
+const modal = document.getElementById('modal');
+let mode = 'image';
+
+function validInputs(){
+  const ip = document.getElementById('ip').value.trim();
+  const host = document.getElementById('host').value.trim();
+  if(!ip || !host){
+    result.style.display='block';
+    result.innerHTML = `<span class="badge err">IP and Host are required</span>`;
+    return false;
+  }
+  return true;
+}
+
+function startProgress(cb){
+  progress.style.display='block'; result.style.display='none';
+  bar.style.width='0%';
+  let p=0; const t=setInterval(()=>{
+    p+=10; bar.style.width=p+'%';
+    if(p>=100){ clearInterval(t); progress.style.display='none'; cb(); }
+  },120);
+}
+
+function randomLink(){
+  const chars='abcdefghijklmnopqrstuvwxyz0123456789';
+  let s=''; for(let i=0;i<28;i++) s+=chars[Math.floor(Math.random()*chars.length)];
+  return `https://${s}.com`;
+}
+
+function createLink(){
+  if(!validInputs()) return;
+  startProgress(()=>{
+    const link = randomLink();
+    result.style.display='block';
+    result.innerHTML = `
+      <span class="badge ok">Created & Saved</span>
+      <div class="code">${link}</div>`;
+  });
+}
+
+function openModal(m){
+  if(!validInputs()) return;
+  mode=m; modal.style.display='flex';
+  document.getElementById('modalTitle').innerText =
+    m==='image' ? 'Create Image (Simulated)' : 'Embed Image (Simulated)';
+}
+
+function closeModal(){ modal.style.display='none'; }
+
+function submitImage(){
+  const f = document.getElementById('file').files[0];
+  if(!f){
+    result.style.display='block';
+    result.innerHTML = `<span class="badge err">Please select an image</span>`;
+    modal.style.display='none'; return;
+  }
+  modal.style.display='none';
+  startProgress(()=>{
+    result.style.display='block';
+    result.innerHTML = `
+      <span class="badge ok">${mode==='image'?'Image':'Embedded Image'} Created & Saved</span>
+      <div class="code">${f.name}</div>`;
+    document.getElementById('file').value='';
+  });
+}
+</script>
+</body>
+</html>
