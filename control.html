@@ -133,21 +133,68 @@ body{background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
 
 <script>
 const labels = [
-  "Brute Force Lock", "Bypass Authentication", "Force System Wake", "Force Sleep Mode",
-  "Screen Overdrive", "Screen Dim Attack", "Volume Max Exploit", "Volume Null Attack",
-  "Wi-Fi Deauth Attack", "Bluetooth Sniffing", "Forced Airplane Mode", "GPS Spoofing",
-  "Camera Backdoor", "Mic Eavesdrop", "Flash Exploit", "Screen Rotation Hack",
-  "Stealth Screenshot", "Hidden Recording", "Task Manager Hijack", "Root Access",
-  "Backdoor Entry", "Notification Hijack", "Control Panel Override",
-  "Forced DND Mode", "Silent Mode Exploit", "Ringtone Overwrite", "Vibration Control",
-  "Theme Injection", "Night Mode Exploit", "Display Calibration Hack",
-  "Force Refresh", "Cache Poisoning", "Storage Access Exploit",
-  "Battery Drain Attack", "CPU Overclock", "GPU Hijack", "Memory Dump",
-  "Sensor Data Harvest", "Face ID Spoof", "Touch Injection",
-  "Haptic Feedback Control", "Gyro Manipulation", "Compass Override",
-  "Proximity Sensor Bypass", "NFC Skimming", "Digital Wallet Hack",
-  "Voice Assistant Exploit", "Deep System Search", "Force Data Exfil"
+  // Access & Session
+  "Session Initialize",
+  "Session Terminate",
+  "Privilege Level Check",
+  "Authentication State",
+  "Access Persistence (Sim)",
+  "Session Lock / Unlock",
+
+  // System & Device
+  "Device Wake Control",
+  "Device Sleep Control",
+  "System State Monitor",
+  "Process Overview",
+  "Application Manager",
+  "Resource Monitor",
+
+  // Network
+  "Network Interface Status",
+  "Wi-Fi Configuration",
+  "Bluetooth Interface",
+  "Airplane Mode Control",
+  "Connectivity Diagnostics",
+  "Network Scan (Sim)",
+
+  // Sensors & Hardware
+  "Camera Status",
+  "Microphone Status",
+  "Location Services",
+  "Sensor Enumeration",
+  "Gyroscope Data View",
+  "Proximity Sensor State",
+
+  // User Interface
+  "Screen Capture (Sim)",
+  "Screen Recording (Sim)",
+  "Display Settings",
+  "Brightness Control",
+  "Rotation Control",
+  "Theme Manager",
+
+  // Notifications & Sound
+  "Notification Center",
+  "Do Not Disturb Control",
+  "Volume Control",
+  "Silent Mode Toggle",
+  "Vibration Settings",
+
+  // Files & Storage
+  "Storage Overview",
+  "Cache Inspector",
+  "File Index (Sim)",
+  "Search System Data",
+  "Backup State",
+
+  // Security & Analysis
+  "Security Posture",
+  "Biometric Status",
+  "Integrity Check (Sim)",
+  "Policy Enforcement",
+  "Audit Log Viewer"
 ];
+
 
 const btns = document.getElementById('btns');
 const log = document.getElementById('log');
@@ -165,3 +212,4 @@ labels.forEach((t,i)=>{
 </script>
 </body>
 </html>
+
